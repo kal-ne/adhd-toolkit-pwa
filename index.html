@@ -1,39 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FocusScaffold // Elite Command Deck</title>
+    <title>Task Jumpstarter Pro // by neeraj krishnan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #070709;
-            --panel-bg: #111115;
-            --panel-bg-elevated: #181820;
-            --panel-border: #2a2a35;
+            /* Radius & Layout constant properties */
+            --radius-lg: 12px;
+            --radius-md: 8px;
+
+            /* Dark Theme Colors (Coolors Slate-Indigo Palette: acadbc-9b9ece-6665dd-473bf0-000500) */
+            --bg-main: #000500;
+            --panel-bg: #0b0c11;
+            --panel-bg-elevated: #161722;
+            --panel-border: #222435;
             --text-primary: #ffffff;
-            --text-secondary: #a1a1b2;
-            
-            --accent-blue: #38bdf8;
-            --accent-blue-glow: rgba(56, 189, 248, 0.15);
-            --accent-green: #4ade80;
-            --accent-green-glow: rgba(74, 222, 128, 0.2);
+            --text-secondary: #acadbc;
+
+            --accent-blue: #6665dd;
+            --accent-blue-glow: rgba(102, 101, 221, 0.08);
+
+            --accent-green: #3cd070;
+            --accent-green-glow: rgba(60, 208, 112, 0.08);
+
             --accent-amber: #fbbf24;
-            --accent-amber-glow: rgba(251, 191, 36, 0.25);
-            --accent-rose: #f43f5e;
-            
-            --radius-lg: 16px;
-            --radius-md: 10px;
+            --accent-amber-glow: rgba(251, 191, 36, 0.08);
+
+            --accent-rose: #b3261e;
+            --accent-rose-glow: rgba(179, 38, 30, 0.08);
+
+            /* Special play controls styling */
+            --play-btn-bg: #064e3b;
+            --play-btn-hover-bg: #0a664e;
+            --play-icon-color: #3cd070;
+            --play-btn-shadow: none;
+
+            /* Special dynamic bindings */
+            --btn-primary-bg: #473bf0;
+            --btn-primary-text: #ffffff;
+
+            --header-bg-gradient: #0b0c11;
+            --arena-gradient: #0b0c11;
+
+            --card-bg-gradient: #161722;
+            --reservoir-card-bg: rgba(172, 173, 188, 0.01);
+            --reservoir-card-border: rgba(172, 173, 188, 0.03);
+
+            --timer-emphasis-bg: rgba(102, 101, 221, 0.12);
+            --timer-emphasis-text: #6665dd;
+            --timer-emphasis-shadow: none;
+
+            /* --clock-running-color: #3cd070; */
+            --clock-running-color: #feb204;
+            --clock-running-shadow: none;
+
+            --shield-bg: rgba(102, 101, 221, 0.06);
+            --shield-border: rgba(102, 101, 221, 0.15);
+            --meta-step-bg: rgba(155, 158, 206, 0.06);
+
+            --play-btn-shadow: none;
+            --input-focus-shadow: none;
+
+            --transition-speed: 0.25s;
+        }
+
+        html[data-theme="light"] {
+            /* Radius & Layout constant properties */
+            --radius-lg: 12px;
+            --radius-md: 8px;
+
+            /* Light Theme Colors (Coolors Palette roots) */
+            --bg-main: #f4f4f9;
+            --panel-bg: #ffffff;
+            --panel-bg-elevated: #fcfcfe;
+            --panel-border: #d8d9e6;
+            --text-primary: #000500;
+            --text-secondary: #575866;
+
+            --accent-blue: #473bf0;
+            --accent-blue-glow: rgba(71, 59, 240, 0.06);
+
+            --accent-green: #1b8a5a;
+            --accent-green-glow: rgba(27, 138, 90, 0.08);
+
+            --accent-amber: #a16207;
+            --accent-amber-glow: rgba(161, 98, 7, 0.08);
+
+            --accent-rose: #b3261e;
+            --accent-rose-glow: rgba(179, 38, 30, 0.08);
+
+            /* Special play controls styling */
+            --play-btn-bg: #1b8a5a;
+            --play-btn-hover-bg: #22a06b;
+            --play-icon-color: #ffffff;
+            --play-btn-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+            --btn-primary-bg: #473bf0;
+            --btn-primary-text: #ffffff;
+
+            --header-bg-gradient: #ffffff;
+            --arena-gradient: #ffffff;
+
+            --card-bg-gradient: #fcfcfe;
+            --reservoir-card-bg: rgba(0, 0, 0, 0.01);
+            --reservoir-card-border: rgba(0, 0, 0, 0.04);
+
+            --timer-emphasis-bg: #e8e9fb;
+            --timer-emphasis-text: #473bf0;
+            --timer-emphasis-shadow: none;
+
+            /* --clock-running-color: #1b8a5a; */
+            --clock-running-color: #d53600;
+            --clock-running-shadow: none;
+
+            --shield-bg: #e8e9fb;
+            --shield-border: rgba(71, 59, 240, 0.15);
+            --meta-step-bg: #e8e9fb;
+
+            --input-focus-shadow: 0 0 0 2px rgba(71, 59, 240, 0.15);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
 
         body {
-            background-color: var(--bg-dark);
+            background-color: var(--bg-main);
             color: var(--text-primary);
             min-height: 100vh;
             display: flex;
@@ -41,10 +142,11 @@
             padding: 16px;
             gap: 16px;
             overflow-x: hidden;
+            transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
         }
 
         header {
-            background: linear-gradient(90deg, var(--panel-bg) 0%, #161622 100%);
+            background: var(--header-bg-gradient);
             border: 1px solid var(--panel-border);
             border-radius: var(--radius-md);
             padding: 14px 24px;
@@ -53,21 +155,24 @@
             align-items: center;
             flex-wrap: wrap;
             gap: 12px;
+            transition: background var(--transition-speed) ease, border-color var(--transition-speed) ease;
         }
 
         .brand-zone h1 {
             font-size: 18px;
             font-weight: 700;
             letter-spacing: -0.5px;
-            background: linear-gradient(45deg, #fff, var(--text-secondary));
+            background: linear-gradient(45deg, var(--text-primary), var(--text-secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            transition: background var(--transition-speed) ease;
         }
 
         .brand-zone span {
             font-weight: 300;
             font-size: 13px;
             color: var(--accent-blue);
+            transition: color var(--transition-speed) ease;
         }
 
         .system-badge {
@@ -78,6 +183,7 @@
             border-radius: 20px;
             font-size: 12px;
             font-weight: 600;
+            transition: background var(--transition-speed) ease, border-color var(--transition-speed) ease, color var(--transition-speed) ease;
         }
 
         .dashboard-grid {
@@ -97,16 +203,37 @@
             flex-direction: column;
             flex: 1 1 300px;
             min-height: 400px;
+            transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease;
         }
 
-        .col-left { flex: 1 1 320px; max-width: 400px; }
-        .col-center { flex: 2 1 400px; }
-        .col-right { flex: 1 1 360px; max-width: 460px; }
+        .col-left {
+            flex: 1 1 320px;
+            max-width: 400px;
+        }
+
+        .col-center {
+            flex: 2 1 400px;
+        }
+
+        .col-right {
+            flex: 1 1 360px;
+            max-width: 460px;
+        }
 
         @media (max-width: 1024px) {
-            .col-left, .col-right { max-width: 100%; }
-            body { overflow-y: auto; }
-            .panel { min-height: auto; }
+
+            .col-left,
+            .col-right {
+                max-width: 100%;
+            }
+
+            body {
+                overflow-y: auto;
+            }
+
+            .panel {
+                min-height: auto;
+            }
         }
 
         .panel-header {
@@ -120,6 +247,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            transition: border-color var(--transition-speed) ease, color var(--transition-speed) ease;
         }
 
         .panel-body {
@@ -155,20 +283,20 @@
 
         input[type="text"] {
             width: 100%;
-            background-color: var(--bg-dark);
+            background-color: var(--bg-main);
             border: 1px solid var(--panel-border);
             border-radius: var(--radius-md);
             color: var(--text-primary);
             padding: 12px;
             font-size: 14px;
             outline: none;
-            transition: all 0.2s;
+            transition: background-color 0.2s, border-color 0.2s, color 0.2s, box-shadow 0.2s;
         }
 
         input[type="text"]:focus {
             border-color: var(--accent-blue);
             background-color: var(--panel-bg-elevated);
-            box-shadow: 0 0 8px var(--accent-blue-glow);
+            box-shadow: var(--input-focus-shadow);
         }
 
         .center-arena {
@@ -176,7 +304,8 @@
             align-items: center;
             text-align: center;
             padding: 40px 20px;
-            background: radial-gradient(circle at top, #161a2e 0%, var(--panel-bg) 70%);
+            background: var(--arena-gradient);
+            transition: background var(--transition-speed) ease;
         }
 
         .now-playing-meta {
@@ -203,12 +332,12 @@
 
         .timer-active-emphasis {
             font-size: 22px !important;
-            color: var(--bg-dark) !important;
-            background-color: var(--accent-amber) !important;
-            border-color: var(--accent-amber);
+            color: var(--timer-emphasis-text) !important;
+            background-color: var(--timer-emphasis-bg) !important;
+            border-color: var(--timer-emphasis-text) !important;
             font-weight: 700 !important;
             font-style: normal !important;
-            box-shadow: 0 4px 20px rgba(251, 191, 36, 0.3);
+            box-shadow: var(--timer-emphasis-shadow);
         }
 
         .active-shield-text {
@@ -216,6 +345,7 @@
             color: var(--accent-blue);
             margin-top: 12px;
             font-weight: 500;
+            transition: color var(--transition-speed) ease;
         }
 
         .giant-clock {
@@ -228,8 +358,9 @@
         }
 
         .clock-running {
-            color: var(--accent-green);
-            text-shadow: 0 0 35px var(--accent-green-glow);
+            color: var(--clock-running-color);
+            text-shadow: var(--clock-running-shadow);
+            transition: color var(--transition-speed) ease, text-shadow var(--transition-speed) ease;
         }
 
         .playback-controls {
@@ -244,14 +375,16 @@
             border-radius: 30px;
             cursor: pointer;
             border: none;
-            transition: all 0.2s ease;
+            transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease, transform 0.2s ease;
         }
 
-        .btn:hover { transform: translateY(-1px); }
+        .btn:hover {
+            transform: translateY(-1px);
+        }
 
         .btn-primary {
-            background-color: var(--text-primary);
-            color: var(--bg-dark);
+            background-color: var(--btn-primary-bg);
+            color: var(--btn-primary-text);
             padding: 16px 44px;
             font-size: 16px;
         }
@@ -280,14 +413,14 @@
         }
 
         .queue-card {
-            background: linear-gradient(145deg, var(--panel-bg-elevated) 0%, #1c1c24 100%);
+            background: var(--card-bg-gradient);
             border: 1px solid var(--panel-border);
             border-radius: var(--radius-md);
             padding: 16px;
             display: flex;
             align-items: center;
             gap: 16px;
-            transition: all 0.2s;
+            transition: background var(--transition-speed) ease, border-color 0.2s ease, box-shadow 0.2s ease;
             position: relative;
         }
 
@@ -296,8 +429,8 @@
         }
 
         .card-play-btn {
-            background: var(--accent-green);
-            color: var(--bg-dark);
+            background: var(--play-btn-bg);
+            color: var(--play-icon-color);
             width: 48px;
             height: 48px;
             border-radius: 50%;
@@ -308,13 +441,13 @@
             cursor: pointer;
             border: none;
             flex-shrink: 0;
-            box-shadow: 0 4px 10px rgba(74, 222, 128, 0.2);
-            transition: transform 0.2s;
+            box-shadow: var(--play-btn-shadow);
+            transition: transform 0.2s, background-color var(--transition-speed) ease, color var(--transition-speed) ease;
         }
 
         .card-play-btn:hover {
             transform: scale(1.08);
-            background: #22c55e;
+            background: var(--play-btn-hover-bg);
         }
 
         .card-main-content {
@@ -325,8 +458,9 @@
         .queue-card-title {
             font-size: 15px;
             font-weight: 700;
-            color: #ffffff;
+            color: var(--text-primary);
             margin-bottom: 4px;
+            transition: color var(--transition-speed) ease;
         }
 
         .queue-card-meta {
@@ -336,21 +470,23 @@
             border-radius: 4px;
             margin-top: 4px;
         }
-        
+
         .meta-step {
-            background-color: rgba(251, 191, 36, 0.08);
+            background-color: var(--meta-step-bg);
             color: var(--accent-amber);
             border-left: 2px solid var(--accent-amber);
+            transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease, border-color var(--transition-speed) ease;
         }
 
         .meta-shield-block {
-            background-color: rgba(56, 189, 248, 0.06);
-            border: 1px solid rgba(56, 189, 248, 0.2);
-            color: #ffffff;
+            background-color: var(--shield-bg);
+            border: 1px solid var(--shield-border);
+            color: var(--text-primary);
             padding: 6px 10px;
             border-radius: 6px;
             font-size: 12px;
             margin-top: 6px;
+            transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease, color var(--transition-speed) ease;
         }
 
         .shield-label {
@@ -375,15 +511,18 @@
             cursor: pointer;
             font-size: 12px;
             padding: 2px;
+            transition: color var(--transition-speed) ease;
         }
 
-        .rank-btn:hover { color: white; }
+        .rank-btn:hover {
+            color: var(--text-primary);
+        }
 
         .queue-card-actions {
             display: flex;
             gap: 12px;
             margin-top: 8px;
-            border-top: 1px solid rgba(255,255,255,0.05);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
             padding-top: 8px;
         }
 
@@ -398,9 +537,17 @@
             gap: 4px;
         }
 
-        .complete-link { color: var(--accent-green); }
-        .delete-link { color: var(--accent-rose); }
-        .redo-link { color: var(--accent-blue); }
+        .complete-link {
+            color: var(--accent-green);
+        }
+
+        .delete-link {
+            color: var(--accent-rose);
+        }
+
+        .redo-link {
+            color: var(--accent-blue);
+        }
 
         /* Render Fix for Circular Return Arrow Icon */
         .icon-rewind {
@@ -444,26 +591,82 @@
         }
 
         .reservoir-card {
-            background-color: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.05);
+            background-color: var(--reservoir-card-bg);
+            border: 1px solid var(--reservoir-card-border);
             opacity: 0.65;
+            transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease;
         }
 
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-thumb { background: var(--panel-border); border-radius: 10px; }
+        .theme-toggle-btn {
+            background: transparent;
+            border: 1px solid var(--panel-border);
+            color: var(--text-secondary);
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .theme-toggle-btn:hover {
+            color: var(--text-primary);
+            border-color: var(--text-primary);
+            background-color: var(--panel-bg-elevated);
+            transform: scale(1.05);
+        }
+
+        .theme-toggle-btn svg {
+            transition: transform 0.3s ease;
+        }
+
+        .theme-toggle-btn:active svg {
+            transform: rotate(30deg) scale(0.9);
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--panel-border);
+            border-radius: 10px;
+        }
     </style>
 </head>
+
 <body>
 
     <header>
         <div class="brand-zone">
-            <h1>FocusScaffold <span>// Command Deck Pro</span></h1>
+            <h1>Task Jumpstarter Pro<span>// by neeraj krishnan</span></h1>
         </div>
-        <div class="system-badge">ADHD Behavioral Tool Kit System</div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+            <button id="theme-toggle-btn" class="theme-toggle-btn" aria-label="Toggle theme" onclick="toggleTheme()">
+                <!-- Sun Icon -->
+                <svg id="theme-icon-sun" class="sun-icon" viewBox="0 0 24 24" width="20" height="20" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    style="display: none;">
+                    <circle cx="12" cy="12" r="4"></circle>
+                    <path
+                        d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41">
+                    </path>
+                </svg>
+                <!-- Moon Icon -->
+                <svg id="theme-icon-moon" class="moon-icon" viewBox="0 0 24 24" width="20" height="20" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    style="display: none;">
+                    <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+                </svg>
+            </button>
+            <div class="system-badge">ADHD Behavioral Tool Kit System</div>
+        </div>
     </header>
 
     <div class="dashboard-grid">
-        
+
         <div class="panel col-left">
             <div class="panel-header" style="color: var(--accent-blue);">1. Drop Deposit</div>
             <div class="panel-body">
@@ -489,7 +692,9 @@
                     </div>
                 </div>
 
-                <button class="btn btn-secondary" style="background-color: var(--text-primary); color: var(--bg-dark); border: none; border-radius: var(--radius-md); padding: 14px; font-size:14px;" onclick="addNewTask()">
+                <button class="btn"
+                    style="background-color: var(--btn-primary-bg); color: var(--btn-primary-text); border: none; border-radius: var(--radius-md); padding: 14px; font-size:14px;"
+                    onclick="addNewTask()">
                     + Queue Sprint Track
                 </button>
             </div>
@@ -497,7 +702,8 @@
 
         <div class="panel col-center center-arena">
             <div class="now-playing-meta">
-                <div style="font-size: 11px; text-transform: uppercase; color: var(--accent-blue); font-weight: 800; letter-spacing: 1.5px; margin-bottom: 8px;">
+                <div
+                    style="font-size: 11px; text-transform: uppercase; color: var(--accent-blue); font-weight: 800; letter-spacing: 1.5px; margin-bottom: 8px;">
                     • Now Playing Focus Target
                 </div>
                 <h2 id="active-focus-title">No Objective Staged</h2>
@@ -518,21 +724,23 @@
         <div class="panel col-right">
             <div class="panel-header">
                 <span>2. Track Up Next</span>
-                <span id="queue-count" style="font-size:11px; color: var(--accent-blue); background: var(--panel-bg-elevated); padding: 2px 8px; border-radius:10px;">0</span>
+                <span id="queue-count"
+                    style="font-size:11px; color: var(--accent-blue); background: var(--panel-bg-elevated); padding: 2px 8px; border-radius:10px;">0</span>
             </div>
-            
+
             <div class="panel-body" style="justify-content: flex-start; gap: 24px;">
-                
+
                 <div class="vertical-queue" id="tasks-pending-container">
-                    </div>
+                </div>
 
                 <div class="reservoir-section">
                     <div class="reservoir-title">
                         <span>🛡️ Reservoir of Faith</span>
-                        <span style="font-size:10px; font-weight:normal; color:var(--text-secondary);">(Your Proof of Competence)</span>
+                        <span style="font-size:10px; font-weight:normal; color:var(--text-secondary);">(Your Proof of
+                            Competence)</span>
                     </div>
                     <div class="vertical-queue" id="tasks-completed-container">
-                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -541,9 +749,38 @@
     </div>
 
     <script>
+        // Theme Management
+        function initTheme() {
+            const savedTheme = localStorage.getItem('focus_scaffold_theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('focus_scaffold_theme', newTheme);
+            updateThemeIcon(newTheme);
+        }
+
+        function updateThemeIcon(theme) {
+            const sunIcon = document.getElementById('theme-icon-sun');
+            const moonIcon = document.getElementById('theme-icon-moon');
+            if (theme === 'dark') {
+                if (sunIcon) sunIcon.style.display = 'block';
+                if (moonIcon) moonIcon.style.display = 'none';
+            } else {
+                if (sunIcon) sunIcon.style.display = 'none';
+                if (moonIcon) moonIcon.style.display = 'block';
+            }
+        }
+
+        initTheme();
+
         let tasks = JSON.parse(localStorage.getItem('focus_scaffold_pro_tasks')) || [];
         let timerInterval = null;
-        let timeRemaining = 600; 
+        let timeRemaining = 600;
         let isTimerRunning = false;
 
         function addNewTask() {
@@ -568,7 +805,7 @@
 
             tasks.push(task);
             saveAndRefresh();
-            
+
             titleInput.value = '';
             scaffoldInput.value = '';
             ifInput.value = '';
@@ -579,7 +816,7 @@
             const pendingContainer = document.getElementById('tasks-pending-container');
             const completedContainer = document.getElementById('tasks-completed-container');
             const countBadge = document.getElementById('queue-count');
-            
+
             pendingContainer.innerHTML = '';
             completedContainer.innerHTML = '';
 
@@ -604,7 +841,7 @@
                                 <div><span class="shield-label" style="color:var(--accent-rose)">IF</span> ${task.shieldIf}</div>
                                 <div style="margin-top: 2px;"><span class="shield-label" style="color:var(--accent-green)">THEN</span> ${task.shieldThen}</div>
                             </div>
-
+ 
                             <div class="queue-card-actions">
                                 <button class="action-button complete-link" onclick="markTaskCompletion(${task.id}, true)">✓ Complete</button>
                                 <button class="action-button delete-link" onclick="deleteTask(${task.id})">🗑 Drop</button>
@@ -621,7 +858,7 @@
             }
 
             if (completedTasks.length === 0) {
-                completedContainer.innerHTML = `<div style="text-align: center; color: var(--text-secondary); font-size: 11px; padding: 12px; border: 1px dashed rgba(255,255,255,0.05);">No documented wins yet inside this workspace session. Complete a sprint loop to compile faith.</div>`;
+                completedContainer.innerHTML = `<div style="text-align: center; color: var(--text-secondary); font-size: 11px; padding: 12px; border: 1px dashed var(--panel-border); border-radius: var(--radius-md);">No documented wins yet inside this workspace session. Complete a sprint loop to compile faith.</div>`;
             } else {
                 completedTasks.forEach(task => {
                     const card = document.createElement('div');
@@ -645,7 +882,7 @@
         function changePriority(id, direction) {
             const index = tasks.findIndex(t => t.id === id);
             if (index === -1) return;
-            
+
             const targetIndex = index + direction;
             if (targetIndex < 0 || targetIndex >= tasks.length) return;
 
@@ -662,7 +899,7 @@
             if (task) {
                 task.completed = isComplete;
                 saveAndRefresh();
-                
+
                 if (isComplete && document.getElementById('active-focus-title').innerText === task.title) {
                     clearActiveArenaDisplay();
                 }
@@ -686,20 +923,20 @@
 
             // 1. Map values into viewport
             document.getElementById('active-focus-title').innerText = target.title;
-            
+
             const scaffoldElement = document.getElementById('active-focus-scaffold');
-            scaffoldElement.innerText = `Immediate Action Step: ${target.scaffold}`;
-            
+            scaffoldElement.innerText = `Immediate Action: ${target.scaffold}`;
+
             document.getElementById('active-focus-shield').innerHTML = `
                 <span style="color:var(--accent-rose); font-weight:700;">IF</span> ${target.shieldIf} 
                 <span style="color:var(--accent-green); font-weight:700; margin-left:8px;">THEN</span> ${target.shieldThen}
             `;
-            
+
             // 2. Clear out existing clock run intervals safely
             clearInterval(timerInterval);
             timeRemaining = 600;
             isTimerRunning = false;
-            
+
             // 3. Trigger playback autostart sequence immediately
             startTimerExecutionLoop();
         }
@@ -714,7 +951,7 @@
             btn.classList.add('btn-primary-running');
             clock.classList.add('clock-running');
             scaffoldText.classList.add('timer-active-emphasis');
-            
+
             updateTimerUI();
 
             timerInterval = setInterval(() => {
@@ -765,14 +1002,14 @@
             timeRemaining = 600;
             isTimerRunning = false;
             updateTimerUI();
-            
+
             const btn = document.getElementById('btn-timer-toggle');
             btn.innerText = "Start Sprint";
             btn.classList.remove('btn-primary-running');
-            
+
             document.getElementById('timer-display').classList.remove('clock-running');
             const scaffoldText = document.getElementById('active-focus-scaffold');
-            if(scaffoldText) scaffoldText.classList.remove('timer-active-emphasis');
+            if (scaffoldText) scaffoldText.classList.remove('timer-active-emphasis');
         }
 
         function updateTimerUI() {
@@ -784,4 +1021,5 @@
         renderTasks();
     </script>
 </body>
+
 </html>
