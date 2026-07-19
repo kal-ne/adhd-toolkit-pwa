@@ -515,7 +515,7 @@
         .card-right-controls {
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 2px;
             align-items: center;
         }
 
@@ -525,12 +525,45 @@
             color: var(--text-secondary);
             cursor: pointer;
             font-size: 12px;
-            padding: 2px;
+            padding: 4px 6px;
             transition: color var(--transition-speed) ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .rank-btn:hover {
             color: var(--text-primary);
+        }
+
+        /* Cassette-style transport icons (vertical) */
+        .transport-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1px;
+            width: 12px;
+        }
+
+        .transport-icon .tri-up {
+            width: 0; height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom: 6px solid currentColor;
+        }
+
+        .transport-icon .tri-down {
+            width: 0; height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 6px solid currentColor;
+        }
+
+        .transport-icon .bar {
+            width: 10px;
+            height: 2px;
+            background: currentColor;
+            border-radius: 1px;
         }
 
         .queue-card-actions {
@@ -865,8 +898,10 @@
                         </div>
                         
                         <div class="card-right-controls">
-                            <button class="rank-btn" onclick="changePriority(${task.id}, -1)">▲</button>
-                            <button class="rank-btn" onclick="changePriority(${task.id}, 1)">▼</button>
+                            <button class="rank-btn" onclick="jumpToFirst(${task.id})" title="Move to top"><span class="transport-icon"><span class="bar"></span><span class="tri-up"></span></span></button>
+                            <button class="rank-btn" onclick="changePriority(${task.id}, -1)" title="Move up"><span class="transport-icon"><span class="tri-up"></span></span></button>
+                            <button class="rank-btn" onclick="changePriority(${task.id}, 1)" title="Move down"><span class="transport-icon"><span class="tri-down"></span></span></button>
+                            <button class="rank-btn" onclick="jumpToLast(${task.id})" title="Move to bottom"><span class="transport-icon"><span class="tri-down"></span><span class="bar"></span></span></button>
                         </div>
                     `;
                     pendingContainer.appendChild(card);
@@ -908,6 +943,35 @@
                 tasks[targetIndex] = temp;
                 saveAndRefresh();
             }
+        }
+
+        function jumpToFirst(id) {
+            const index = tasks.findIndex(t => t.id === id);
+            if (index === -1) return;
+            const task = tasks[index];
+            // Find the first task in the same group (pending/completed)
+            const firstIndex = tasks.findIndex(t => t.completed === task.completed);
+            if (index === firstIndex) return; // already at top
+            tasks.splice(index, 1);
+            tasks.splice(firstIndex, 0, task);
+            saveAndRefresh();
+        }
+
+        function jumpToLast(id) {
+            const index = tasks.findIndex(t => t.id === id);
+            if (index === -1) return;
+            const task = tasks[index];
+            // Find the last task in the same group (pending/completed)
+            let lastIndex = -1;
+            for (let i = tasks.length - 1; i >= 0; i--) {
+                if (tasks[i].completed === task.completed) { lastIndex = i; break; }
+            }
+            if (index === lastIndex) return; // already at bottom
+            tasks.splice(index, 1);
+            // After splice, the lastIndex shifts down by 1 if it was after the removed element
+            const insertAt = index < lastIndex ? lastIndex : lastIndex + 1;
+            tasks.splice(insertAt, 0, task);
+            saveAndRefresh();
         }
 
         function markTaskCompletion(id, isComplete) {
