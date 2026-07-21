@@ -224,10 +224,17 @@
         .col-left {
             flex: 1 1 320px;
             max-width: 400px;
+            position: sticky;
+            top: 16px;
+            align-self: flex-start;
         }
 
         .col-center {
             flex: 2 1 400px;
+            position: sticky;
+            top: 16px;
+            align-self: flex-start;
+            height: calc(100vh - 120px);
         }
 
         .col-right {
@@ -240,6 +247,13 @@
             .col-left,
             .col-right {
                 max-width: 100%;
+            }
+
+            .col-left,
+            .col-center {
+                position: static;
+                align-self: auto;
+                height: auto;
             }
 
             body {
